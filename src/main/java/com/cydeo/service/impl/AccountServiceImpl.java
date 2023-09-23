@@ -15,7 +15,8 @@ import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-    AccountRepository accountRepository;
+
+   AccountRepository accountRepository;
 
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
