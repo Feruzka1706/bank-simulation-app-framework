@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.model.Account;
 import com.cydeo.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,5 +27,16 @@ public class AccountController {
         model.addAttribute("accounts",accountService.listAllAccounts());
         return "account/index";
     }
+
+    @GetMapping("/create-form")
+    //@RequestMapping(method = RequestMethod.GET) we can use this way as well
+    public String getCreateAccountForm(Model model){
+    //we need to provide empty account object
+        model.addAttribute("account", Account.builder().build());
+
+        return "account/create-account";
+    }
+
+
 
 }
