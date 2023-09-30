@@ -19,7 +19,7 @@ public class BankSimulationAppApplication {
 
        ApplicationContext container= SpringApplication.run(BankSimulationAppApplication.class, args);
 
-       /**
+
        //get account and transactionService beans
         AccountService accountService = container.getBean(AccountService.class);
 
@@ -32,6 +32,7 @@ public class BankSimulationAppApplication {
         Account receiver = accountService.createAccount(BigDecimal.valueOf(50),
                 new Date(), AccountType.SAVING, 2L);
 
+        /*
        //receiver = null;
 
         accountService.listAllAccounts().forEach(System.out::println);
