@@ -18,5 +18,5 @@ public interface TransactionService {
     List<Transaction> findAllTransactions();
 
 
-
+    Object last10Transactions();
 }

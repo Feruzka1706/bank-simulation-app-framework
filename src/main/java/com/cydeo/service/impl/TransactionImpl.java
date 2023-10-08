@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -53,7 +55,7 @@ public class TransactionImpl implements TransactionService {
         we need to create Transaction object and save/return it
          */
             Transaction transaction = Transaction.builder().transactionAmount(amount).sender(sender.getAccountId())
-                    .receiver(receiver.getAccountId()).transactionDate(creationDate).description(message).build();
+                    .receiver(receiver.getAccountId()).transactionDate(creationDate).message(message).build();
 
 
             //save into db  and return it
@@ -131,6 +133,19 @@ public class TransactionImpl implements TransactionService {
     @Override
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
+    }
+
+    @Override
+    public List<Transaction> last10Transactions() {
+
+        //write a stream that sort the transactions based on creation date
+        //and return only 10 last of them
+
+        return transactionRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Transaction::getTransactionDate).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
     }
 
 }

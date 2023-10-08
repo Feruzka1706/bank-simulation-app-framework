@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org/">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -14,32 +14,36 @@
             <div class="row">
                 <div class="col-md-6">
                     <div>
-                        <form action="#">
+                        <form th:object="${transaction}" th:action="@{/transfer-money}" method="post">
                             <div class="row">
                                 <div class="form-group blu-margin">
                                     <label for="sender" class="col-form-label">Sender</label>
-                                    <select class="form-control" id="sender">
+                                    <select class="form-control" id="sender" th:field="*{sender}">
                                         <option value="0">Select Account</option>
-                                        <option></option>
+                                        <option th:each="account: ${accounts}"
+                                                th:value="${account.accountId}"
+                                                th:text="${account.balance + ' - ' + account.userId + ' - ' + account.accountType.name()}"></option>
                                     </select>
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="receiver" class="col-form-label">Receiver</label>
-                                    <select class="form-control" id="receiver">
+                                    <select class="form-control" id="receiver" th:field="*{receiver}">
                                         <option value="0">Select Account</option>
-                                        <option></option>
+                                        <option th:each="account: ${accounts}"
+                                                th:value="${account.accountId}"
+                                                th:text="${account.balance + ' - ' + account.userId + ' - ' + account.accountType.name()}"></option>
                                     </select>
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="amount" class="col-form-label">Amount</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
+                                    <input type="text"  class="form-control" id="amount" placeholder="Amount" th:field="*{transactionAmount}">
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="message" class="col-form-label">Message</label>
-                                    <input type="text" class="form-control" id="message" placeholder="Message">
+                                    <input type="text" class="form-control" id="message" placeholder="Message" th:field="*{message}">
                                 </div>
                             </div>
                             <div class="row">
@@ -61,12 +65,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr >
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="transaction : ${latestTransactions}">
+                                    <td th:text="${transaction.sender}"></td>
+                                    <td th:text="${transaction.receiver}"></td>
+                                    <td th:text="${transaction.transactionAmount}"></td>
+                                    <td th:text="${transaction.transactionDate}"></td>
+                                    <td th:text="${transaction.message}"></td>
                                 </tr>
                             </tbody>
                         </table>
