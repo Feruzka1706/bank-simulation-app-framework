@@ -45,7 +45,7 @@
               <a th:if="${account.accountStatus.name() == 'ACTIVE'}" class="btn btn-danger" th:href="@{/delete/{id} (id=${account.accountId})}">Delete</a>
               <a th:if="${account.accountStatus.name() == 'DELETED'}" class="btn btn-warning" th:href="@{/activate/{id} (id=${account.accountId})}">Activate</a>
             </td>
-            <td><a class="btn btn-success" href="#">Account Transaction</a></td>
+            <td><a class="btn btn-success" th:href="@{/transaction/{id}(id=${account.accountId})}">Account Transaction</a></td>
           </tr>
           <!-- Repeat the above row structure for each account -->
           </tbody>

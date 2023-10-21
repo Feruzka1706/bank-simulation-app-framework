@@ -9,12 +9,10 @@ import com.cydeo.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @RequestMapping
 @Controller
@@ -45,8 +43,9 @@ public class TransactionController {
 
     //adding new transaction
     @PostMapping("/transfer-money")
-    public String makeTransaction(@ModelAttribute("transaction") Transaction transaction,Model model){
+    public String makeTransaction(@ModelAttribute("transaction") Transaction transaction){
 
+        //Find the Account objects based on the ID that I have and use as a parameter to complete makeTransfer method
         Account sender = accountService.findAccountById(transaction.getSender());
         Account receiver = accountService.findAccountById(transaction.getReceiver());
 
@@ -58,6 +57,18 @@ public class TransactionController {
         return "redirect:/make-transfer"; //redirecting above controller method
 
     }
+
+    //write a method that gets the account id from index.html and print on the console
+    //work on index.html and here
+    //transaction/{id}
+    //return transaction/transactions page
+    @GetMapping("/transaction/{id}")
+    public String getTransactionHistoryPage( @PathVariable("id")UUID transactionId){
+        System.out.println(transactionId);
+
+        return "transaction/transactions";
+    }
+
 
 
 }
