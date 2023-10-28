@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping
@@ -63,11 +64,21 @@ public class TransactionController {
     //transaction/{id}
     //return transaction/transactions page
     @GetMapping("/transaction/{id}")
-    public String getTransactionHistoryPage( @PathVariable("id")UUID transactionId){
+    public String getTransactionHistoryPage(@PathVariable("id")UUID transactionId, Model model){
         System.out.println(transactionId);
+
+        //get the list of transactions based on id and return as a model attribute
+        //Task complete method (service and repo)
+        //findTransactionListById
+        List<Transaction> transactionList = transactionService.findTransactionListById(transactionId);
+
+        model.addAttribute("transactions", transactionList);
 
         return "transaction/transactions";
     }
+
+    //go to transactions.html
+    //based on size of the transactions either show "No transactions yet" or transactions table
 
 
 

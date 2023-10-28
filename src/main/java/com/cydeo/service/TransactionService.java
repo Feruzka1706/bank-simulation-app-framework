@@ -19,4 +19,6 @@ public interface TransactionService {
 
 
     Object last10Transactions();
+
+    List<Transaction> findTransactionListById(UUID transactionId);
 }

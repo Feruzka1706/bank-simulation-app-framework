@@ -148,4 +148,8 @@ public class TransactionImpl implements TransactionService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Transaction> findTransactionListById(UUID transactionId) {
+        return transactionRepository.findByTransactionId(transactionId);
+    }
 }
