@@ -7,10 +7,13 @@ import com.cydeo.repository.AccountRepository;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -44,7 +47,13 @@ public class TransactionController {
 
     //adding new transaction
     @PostMapping("/transfer-money")
-    public String makeTransaction(@ModelAttribute("transaction") Transaction transaction){
+    public String makeTransaction(@ModelAttribute("transaction") @Valid Transaction transaction,
+                                  BindingResult bindingResult, Model model){
+         if(bindingResult.hasErrors()){
+              model.addAttribute("accounts",accountService.listAllAccounts());
+             model.addAttribute("latestTransactions", transactionService.last10Transactions());
+             return "transaction/make-transfer";
+         }
 
         //Find the Account objects based on the ID that I have and use as a parameter to complete makeTransfer method
         Account sender = accountService.findAccountById(transaction.getSender());

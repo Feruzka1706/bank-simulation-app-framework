@@ -19,31 +19,52 @@
                                 <div class="form-group blu-margin">
                                     <label for="sender" class="col-form-label">Sender</label>
                                     <select class="form-control" id="sender" th:field="*{sender}">
-                                        <option value="0">Select Account</option>
+                                        <option th:value="''" th:text="select"></option>
                                         <option th:each="account: ${accounts}"
                                                 th:value="${account.accountId}"
                                                 th:text="${account.balance + ' - ' + account.userId + ' - ' + account.accountType.name()}"></option>
                                     </select>
+                                    <span th:if="${#fields.hasErrors('sender')}">
+                                    <ul class="alert alert-danger">
+                                        <li th:each="error :${#fields.errors('sender')}" th:text="${error}"></li>
+                                    </ul>
+                                    </span>
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="receiver" class="col-form-label">Receiver</label>
                                     <select class="form-control" id="receiver" th:field="*{receiver}">
-                                        <option value="0">Select Account</option>
+                                        <option th:value="''" th:text="select"></option>
                                         <option th:each="account: ${accounts}"
                                                 th:value="${account.accountId}"
                                                 th:text="${account.balance + ' - ' + account.userId + ' - ' + account.accountType.name()}"></option>
                                     </select>
+                                    <span th:if="${#fields.hasErrors('receiver')}">
+                                    <ul class="alert alert-danger">
+                                        <li th:each="error :${#fields.errors('receiver')}" th:text="${error}"></li>
+                                    </ul>
+                                    </span>
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="amount" class="col-form-label">Amount</label>
                                     <input type="text"  class="form-control" id="amount" placeholder="Amount" th:field="*{transactionAmount}">
+                                    <span th:if="${#fields.hasErrors('transactionAmount')}">
+                                    <ul class="alert alert-danger">
+                                        <li th:each="error :${#fields.errors('transactionAmount')}" th:text="${error}"></li>
+                                    </ul>
+                                    </span>
+
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="message" class="col-form-label">Message</label>
                                     <input type="text" class="form-control" id="message" placeholder="Message" th:field="*{message}">
+                                    <span th:if="${#fields.hasErrors('message')}">
+                                    <ul class="alert alert-danger">
+                                        <li th:each="error :${#fields.errors('message')}" th:text="${error}"></li>
+                                    </ul>
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
