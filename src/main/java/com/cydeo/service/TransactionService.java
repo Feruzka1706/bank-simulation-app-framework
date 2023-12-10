@@ -1,24 +1,22 @@
 package com.cydeo.service;
 
 
-import com.cydeo.model.Account;
-import com.cydeo.model.Transaction;
-import org.springframework.stereotype.Service;
+import com.cydeo.dto.AccountDTO;
+import com.cydeo.dto.TransactionDTO;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface TransactionService {
 
-    Transaction makeTransfer(Account sender, Account receiver,
-                             BigDecimal amount, Date creationDate, String message);
+    TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver,
+                                BigDecimal amount, Date creationDate, String message);
 
-    List<Transaction> findAllTransactions();
+    List<TransactionDTO> findAllTransactions();
 
 
     Object last10Transactions();
 
-    List<Transaction> findTransactionListById(UUID transactionId);
+    List<TransactionDTO> findTransactionListById(Long transactionId);
 }

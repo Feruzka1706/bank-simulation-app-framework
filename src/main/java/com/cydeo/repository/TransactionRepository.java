@@ -1,34 +1,31 @@
 package com.cydeo.repository;
 
-import com.cydeo.model.Account;
-import com.cydeo.model.Transaction;
+import com.cydeo.dto.TransactionDTO;
+import com.cydeo.entity.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-@Repository
-public class TransactionRepository {
 
-    public static List<Transaction> transactionList = new ArrayList<>();
+public interface TransactionRepository extends JpaRepository<Transaction,Long> {
 
-    public Transaction save(Transaction transaction){
-        transactionList.add(transaction);
-        return transaction;
-    }
+    //List<Transaction> findByTransactionId(Long transactionId);
+    @Query("select t from Transaction t where t.sender= ?1 " +
+            "or t.receiver=?1")
+    List<Transaction> findAllTransactionsByAccountId(Long transactionId);
 
-    public List<Transaction> findAll() {
-        return transactionList;
-    }
+    List<Transaction> findTop10ByOrderByTransactionDateDesc();
 
 
-    public List<Transaction> findByTransactionId(UUID transactionId){
-        return transactionList.stream()
-                .filter(transaction -> transaction.getSender().equals(transactionId)
-                        || transaction.getReceiver().equals(transactionId))
-                .collect(Collectors.toList());
-    }
+    //Write Native query to retrieve latest 10 last created transactions
+    @Query(value = "select * from transactions order by transaction_date desc limit 10",nativeQuery = true)
+    List<Transaction> findLast10Transactions();
+
+
 }

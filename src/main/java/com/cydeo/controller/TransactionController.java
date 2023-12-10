@@ -1,13 +1,11 @@
 package com.cydeo.controller;
 
 
-import com.cydeo.model.Account;
-import com.cydeo.model.Transaction;
-import com.cydeo.repository.AccountRepository;
+import com.cydeo.dto.AccountDTO;
+import com.cydeo.dto.TransactionDTO;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import lombok.AllArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping
 @Controller
@@ -32,10 +29,10 @@ public class TransactionController {
     public String getMakeTransferPage(Model model){
 
         //we need to provide empty transaction object
-        model.addAttribute("transaction", Transaction.builder().build());
+        model.addAttribute("transactionDTO", new TransactionDTO());
 
         //we need to provide list of all accounts
-        model.addAttribute("accounts",accountService.listAllAccounts());
+        model.addAttribute("accounts",accountService.listAllActiveAccount());
         //we need list of last 10 transactions to display on the table
         model.addAttribute("latestTransactions", transactionService.last10Transactions());
         return "transaction/make-transfer";
@@ -47,7 +44,7 @@ public class TransactionController {
 
     //adding new transaction
     @PostMapping("/transfer-money")
-    public String makeTransaction(@ModelAttribute("transaction") @Valid Transaction transaction,
+    public String makeTransaction(@ModelAttribute("transactionDTO") @Valid TransactionDTO transactionDTO,
                                   BindingResult bindingResult, Model model){
          if(bindingResult.hasErrors()){
               model.addAttribute("accounts",accountService.listAllAccounts());
@@ -56,13 +53,13 @@ public class TransactionController {
          }
 
         //Find the Account objects based on the ID that I have and use as a parameter to complete makeTransfer method
-        Account sender = accountService.findAccountById(transaction.getSender());
-        Account receiver = accountService.findAccountById(transaction.getReceiver());
+        AccountDTO sender = accountService.findAccountById(transactionDTO.getSender().getAccountId());
+        AccountDTO receiver = accountService.findAccountById(transactionDTO.getReceiver().getAccountId());
 
         transactionService.makeTransfer(sender,receiver,
-                transaction.getTransactionAmount(),
+                transactionDTO.getTransactionAmount(),
                 new Date(),
-                transaction.getMessage());
+                transactionDTO.getMessage());
 
         return "redirect:/make-transfer"; //redirecting above controller method
 
@@ -73,22 +70,20 @@ public class TransactionController {
     //transaction/{id}
     //return transaction/transactions page
     @GetMapping("/transaction/{id}")
-    public String getTransactionHistoryPage(@PathVariable("id")UUID transactionId, Model model){
+    public String getTransactionHistoryPage(@PathVariable("id") Long transactionId, Model model){
         System.out.println(transactionId);
 
         //get the list of transactions based on id and return as a model attribute
         //Task complete method (service and repo)
         //findTransactionListById
-        List<Transaction> transactionList = transactionService.findTransactionListById(transactionId);
+        List<TransactionDTO> transactionDTOList = transactionService.findTransactionListById(transactionId);
 
-        model.addAttribute("transactions", transactionList);
+        model.addAttribute("transactions", transactionDTOList);
 
         return "transaction/transactions";
     }
 
     //go to transactions.html
     //based on size of the transactions either show "No transactions yet" or transactions table
-
-
 
 }

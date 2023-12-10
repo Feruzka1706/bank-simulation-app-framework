@@ -1,9 +1,10 @@
 package com.cydeo;
 
+import com.cydeo.dto.AccountDTO;
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -26,11 +27,11 @@ public class BankSimulationAppApplication {
         TransactionService transactionService = container.getBean(TransactionService.class);
 
         //create 2 accounts sender and receiver
-        Account sender = accountService.createAccount(BigDecimal.valueOf(70),
-                new Date(), AccountType.CHECKING, 2L);
+//        AccountDTO sender = accountService.createAccount(BigDecimal.valueOf(70),
+//                new Date(), AccountType.CHECKING, 2L);
 
-        Account receiver = accountService.createAccount(BigDecimal.valueOf(50),
-                new Date(), AccountType.SAVING, 2L);
+//        AccountDTO receiver = accountService.createAccount(BigDecimal.valueOf(50),
+//                new Date(), AccountType.SAVING, 2L);
 
         /*
        //receiver = null;
@@ -47,6 +48,11 @@ public class BankSimulationAppApplication {
         accountService.listAllAccounts().forEach(System.out::println);
         */
 
+    }
+
+    @Bean
+    public ModelMapper mapper(){
+        return new ModelMapper();
     }
 
 }

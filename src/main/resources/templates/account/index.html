@@ -34,20 +34,20 @@
           </tr>
           </thead>
           <tbody>
-          <!-- Add your code to iterate over accounts and display account information -->
-          <tr th:each="account : ${accounts}">
-            <td th:text="${account.userId}"></td>
-            <td th:text="${account.accountStatus}"></td>
-            <td th:text="${account.balance}"></td>
-            <td th:text="${account.accountType}"></td>
-            <td th:text="${account.creationDate}"></td>
+          <!-- Add your code to iterate over accounts and display accountDTO information -->
+          <tr th:each="accountDTO : ${accounts}">
+            <td th:text="${accountDTO.userId}"></td>
+            <td th:text="${accountDTO.accountStatus}"></td>
+            <td th:text="${accountDTO.balance}"></td>
+            <td th:text="${accountDTO.accountType}"></td>
+            <td th:text="${accountDTO.creationDate}"></td>
             <td>
-              <a th:if="${account.accountStatus.name() == 'ACTIVE'}" class="btn btn-danger" th:href="@{/delete/{id} (id=${account.accountId})}">Delete</a>
-              <a th:if="${account.accountStatus.name() == 'DELETED'}" class="btn btn-warning" th:href="@{/activate/{id} (id=${account.accountId})}">Activate</a>
+              <a th:if="${accountDTO.accountStatus.name() == 'ACTIVE'}" class="btn btn-danger" th:href="@{/delete/{id} (id=${accountDTO.accountId})}">Delete</a>
+              <a th:if="${accountDTO.accountStatus.name() == 'DELETED'}" class="btn btn-warning" th:href="@{/activate/{id} (id=${accountDTO.accountId})}">Activate</a>
             </td>
-            <td><a class="btn btn-success" th:href="@{/transaction/{id}(id=${account.accountId})}">Account Transaction</a></td>
+            <td><a class="btn btn-success" th:href="@{/transaction/{id}(id=${accountDTO.accountId})}">Account Transaction</a></td>
           </tr>
-          <!-- Repeat the above row structure for each account -->
+          <!-- Repeat the above row structure for each accountDTO -->
           </tbody>
         </table>
       </div>

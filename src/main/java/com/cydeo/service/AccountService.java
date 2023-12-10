@@ -1,24 +1,26 @@
 package com.cydeo.service;
 
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
-import org.springframework.stereotype.Service;
+import com.cydeo.dto.AccountDTO;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface AccountService {
 
-    Account createAccount(BigDecimal balance, Date createDate, AccountType accountType, Long userId);
-    List<Account> listAllAccounts();
+    void createNewAccount(AccountDTO accountDTO);
+    List<AccountDTO> listAllAccounts();
 
-    void deleteAccountById(UUID accountId);
+    void deleteAccountById(Long accountId) ;
 
-    void activateDeletedAccountById(UUID accountId);
+    void activateDeletedAccountById(Long accountId);
 
-    Account findAccountById(UUID accountId);
+    AccountDTO findAccountById(Long accountId);
+
+    List<AccountDTO> listAllActiveAccount();
 
 
+    void updateAccount(AccountDTO accountDTO);
 }
