@@ -21,7 +21,7 @@
                                     <select class="form-control" id="sender" th:field="*{sender}">
                                         <option th:value="''" th:text="select"></option>
                                         <option th:each="accountDTO: ${accounts}"
-                                                th:value="${accountDTO.accountId}"
+                                                th:value="${accountDTO.id}"
                                                 th:text="${accountDTO.balance + ' - ' + accountDTO.userId + ' - ' + accountDTO.accountType.name()}"></option>
                                     </select>
                                     <span th:if="${#fields.hasErrors('sender')}">
@@ -36,7 +36,7 @@
                                     <select class="form-control" id="receiver" th:field="*{receiver}">
                                         <option th:value="''" th:text="select"></option>
                                         <option th:each="accountDTO: ${accounts}"
-                                                th:value="${accountDTO.accountId}"
+                                                th:value="${accountDTO.id}"
                                                 th:text="${accountDTO.balance + ' - ' + accountDTO.userId + ' - ' + accountDTO.accountType.name()}"></option>
                                     </select>
                                     <span th:if="${#fields.hasErrors('receiver')}">
@@ -87,8 +87,8 @@
                             </thead>
                             <tbody>
                                 <tr th:each="transaction : ${latestTransactions}">
-                                    <td th:text="${transaction.getSender()}"></td>
-                                    <td th:text="${transaction.getReceiver()}"></td>
+                                    <td th:text="${transaction.getSender().id}"></td>
+                                    <td th:text="${transaction.getReceiver().id}"></td>
                                     <td th:text="${transaction.getTransactionAmount()}"></td>
                                     <td th:text="${transaction.getTransactionDate()}"></td>
                                     <td th:text="${transaction.getMessage()}"></td>

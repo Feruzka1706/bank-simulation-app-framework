@@ -16,27 +16,40 @@ import java.util.stream.Collectors;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-   AccountRepository accountRepository;
-   AccountMapper accountMapper;
+   private  final AccountRepository accountRepository;
+   private  final AccountMapper accountMapper;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper) {
+        this.accountMapper = accountMapper;
         this.accountRepository = accountRepository;
     }
 
     @Override
-    public void createNewAccount( AccountDTO accountDTO) {
-        // Create an AccountEntity
+    public void  createNewAccount(AccountDTO accountDTO) {
+        if (accountDTO == null) {
+            throw new IllegalArgumentException("accountDTO must not be null");
+        }
+
+        if (accountMapper == null) {
+            throw new IllegalStateException("accountMapper is not initialized");
+        }
+
+        if (accountRepository == null) {
+            throw new IllegalStateException("accountRepository is not initialized");
+        }
+
         accountDTO.setCreationDate(new Date());
         accountDTO.setAccountStatus(AccountStatus.ACTIVE);
-        //save to db (repository)
+        //save into the database(repository)
         accountRepository.save(accountMapper.convertToEntity(accountDTO));
     }
 
     @Override
-    public List<AccountDTO> listAllAccounts() {
-        //we are getting list of accounts but we need to return list of AccountDTO
-        return accountRepository.findAll()
-                .stream().map(accountMapper::convertToDTO).collect(Collectors.toList());
+    public List<AccountDTO> listAllAccount() {
+        //we are getting list of account but we need to return list of AccountDTO
+        List<Account> accountList = accountRepository.findAll();
+        //we are converting entity to dto list and return it
+        return accountList.stream().map(accountMapper::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -61,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-        @Override
+    @Override
     public void activateDeletedAccountById (Long accountId){
        // Find the account by ID
        Optional<Account> optionalAccount = accountRepository.findById(accountId);

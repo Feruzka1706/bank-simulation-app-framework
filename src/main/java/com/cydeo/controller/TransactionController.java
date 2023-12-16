@@ -47,14 +47,14 @@ public class TransactionController {
     public String makeTransaction(@ModelAttribute("transactionDTO") @Valid TransactionDTO transactionDTO,
                                   BindingResult bindingResult, Model model){
          if(bindingResult.hasErrors()){
-              model.addAttribute("accounts",accountService.listAllAccounts());
+              model.addAttribute("accounts",accountService.listAllAccount());
              model.addAttribute("latestTransactions", transactionService.last10Transactions());
              return "transaction/make-transfer";
          }
 
         //Find the Account objects based on the ID that I have and use as a parameter to complete makeTransfer method
-        AccountDTO sender = accountService.findAccountById(transactionDTO.getSender().getAccountId());
-        AccountDTO receiver = accountService.findAccountById(transactionDTO.getReceiver().getAccountId());
+        AccountDTO sender = accountService.findAccountById(transactionDTO.getSender().getId());
+        AccountDTO receiver = accountService.findAccountById(transactionDTO.getReceiver().getId());
 
         transactionService.makeTransfer(sender,receiver,
                 transactionDTO.getTransactionAmount(),

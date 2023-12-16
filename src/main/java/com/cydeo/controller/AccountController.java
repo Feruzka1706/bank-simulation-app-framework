@@ -24,16 +24,14 @@ public class AccountController {
    */
     AccountService accountService;
 
-
     /*
     write a method to return index.html page including account list information
     endpoint:index
      */
     @GetMapping("/index")
-    //@RequestMapping(method = RequestMethod.GET) we can use this way as well
-    public String getListOfAccounts(Model model){
+    public String getIndexPage(Model model){
 
-        model.addAttribute("accounts",accountService.listAllAccounts());
+        model.addAttribute("accountList",accountService.listAllAccount());
         return "account/index";
     }
 

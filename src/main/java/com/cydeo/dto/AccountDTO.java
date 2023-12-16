@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class AccountDTO {
 
-    private Long accountId;
+    private Long id;
 
     @NotNull
     @Positive

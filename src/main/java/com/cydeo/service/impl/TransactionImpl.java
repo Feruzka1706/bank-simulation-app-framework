@@ -83,13 +83,13 @@ public class TransactionImpl implements TransactionService {
              */
             // method is updating given accountId balance and save it for DB
             //accountService.updateAccount(accountService.findAccountById(sender.getAccountId()));
-            AccountDTO senderAccount = accountService.findAccountById(receiver.getAccountId());
+            AccountDTO senderAccount = accountService.findAccountById(receiver.getId());
             senderAccount.setBalance(sender.getBalance());
             accountService.updateAccount(senderAccount);
 
             // method is updating given accountId balance and save it for DB
             //accountService.updateAccount(accountService.findAccountById(receiver.getAccountId()));
-            AccountDTO receiverAccount = accountService.findAccountById(receiver.getAccountId());
+            AccountDTO receiverAccount = accountService.findAccountById(receiver.getId());
             receiverAccount.setBalance(receiver.getBalance());
             accountService.updateAccount(receiverAccount);
 
@@ -134,13 +134,13 @@ public class TransactionImpl implements TransactionService {
         }
 
         //if account are the same throw BadRequestException with saying accounts needs to be different
-        if(sender.getAccountId().equals(receiver.getAccountId())){
+        if(sender.getId().equals(receiver.getId())){
             throw new BadRequestException("Sender and Receiver accounts MUST to be different");
         }
 
         //if accounts exist in database
-        findAccountById(sender.getAccountId());
-        findAccountById(receiver.getAccountId());
+        findAccountById(sender.getId());
+        findAccountById(receiver.getId());
 
     }
 

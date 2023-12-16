@@ -15,13 +15,13 @@ public class AccountMapper {
     }
 
     public AccountDTO convertToDTO(Account entity){
-        //this method will accept Account and convert to DTO object by the help of model mapper class
+        //this method will accept Account entity and will convert it to DTO
         return modelMapper.map(entity,AccountDTO.class);
     }
 
-    public Account convertToEntity(AccountDTO accountDTO){
-        //this method will accept AccountDTO and convert to entity object by the help of model mapper class
-        return modelMapper.map(accountDTO,Account.class);
+    public Account convertToEntity(AccountDTO dto){
+        //this method will accept dto and convert it to entity
+        return modelMapper.map(dto,Account.class);
     }
 
 }
