@@ -172,8 +172,7 @@ public class TransactionImpl implements TransactionService {
 
     @Override
     public List<TransactionDTO> findTransactionListById(Long accountId) {
-
-        //get the list of transactions if account id is involved as a sender or receiver
+        // get the list of transactions if the account id is involved as a sender or receiver
         return transactionRepository.findAllTransactionsByAccountId(accountId)
                 .stream().map(transactionMapper::convertToDTO)
                 .collect(Collectors.toList());
